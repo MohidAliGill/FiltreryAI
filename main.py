@@ -8,6 +8,7 @@ load_dotenv()
 
 # Retrieve the API key from environment variables
 api_key = os.getenv("GOOGLE_API_KEY")
+user_filters = {}
 
 # Configure Google AI API
 genai.configure(api_key=api_key)
@@ -26,6 +27,9 @@ def extract_filters(user_query):
                     "bedrooms": rooms,
                     "max_rent": max_rent
                 }}
+
+                If the query modifies an existing filter, only return the updated fields.
+                Do not remove any previously stored information.
                 """
 
     response = model.generate_content(prompt)
@@ -52,5 +56,6 @@ while True:
         print("Goodbye! 👋")
         break
 
-    filters = extract_filters(user_query)
-    print("\nExtracted Filters:", filters)
+    new_filters = extract_filters(user_query)
+    user_filters.update(new_filters)
+    print("\nExtracted Filters:", user_filters)
