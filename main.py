@@ -46,8 +46,11 @@ def extract_filters(user_query):
         print("JSON Parsing Error:", str(e))
         return {"error": "Failed to parse response"}
 
-# Test the function
-user_query = "I need a 2-bed apartment in Leicester under 1700 pounds per month"
-filters = extract_filters(user_query)
+while True:
+    user_query = input("\nEnter the real estate search query (or type 'exit' to quit): ").strip()
+    if user_query.lower() == 'exit':
+        print("Goodbye! 👋")
+        break
 
-print("\nExtracted Filters:", filters)
+    filters = extract_filters(user_query)
+    print("\nExtracted Filters:", filters)
